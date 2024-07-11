@@ -5,7 +5,7 @@ import { ENV } from './env';
 const resend = new Resend(ENV.RESEND_API_KEY);
 
 function sendReminderHourly() {
-  cron.schedule('50 * * * *', () => {
+  cron.schedule('* * * * *', () => {
     resend.emails.send({
       from: 'onboarding@resend.dev', // TODO: update to waterfollow or mateusjbarbosa.dev e-mail
       to: 'dev.mateusbarbosa@gmail.com', // TODO: update to dynamic as user
