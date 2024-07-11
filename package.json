@@ -10,11 +10,13 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node --env-file=.env dist/src/index.js"
+    "start:api": "node --env-file=.env dist/src/api.js",
+    "start:job": "node --env-file=.env dist/src/job.js"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "2.2.2",
     "drizzle-orm": "0.32.0",
+    "fastify": "4.28.1",
     "node-cron": "3.0.3",
     "postgres": "3.4.4",
     "resend": "3.4.0",

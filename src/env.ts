@@ -7,6 +7,7 @@ const envSchema = z.object({
   DB_PORT: z.coerce.number(),
   DB_USER: z.string().trim().min(1),
   NODE_ENV: z.enum(["development", "production", "test"]),
+  PORT: z.coerce.number(),
   RESEND_API_KEY: z.string().trim().min(1),
 });
 
