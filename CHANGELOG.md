@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Add POST endpoint to insert new hydration registry on database
+
+### Removed
+
+- Remove insertion on database at each reminder
+
+## [0.2.0] - 2024-07-11
+
+### Added
+
 - Set quantity of water ingested at each reminder as 300 milliliters
 - Store hydration at each reminder on PostgreSQL database
 
