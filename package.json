@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node --env-file=.env dist/src/index.js"
+    "start:api": "node --env-file=.env dist/src/api.js",
+    "start:job": "node --env-file=.env dist/src/job.js"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "2.2.2",
