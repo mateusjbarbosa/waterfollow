@@ -1,0 +1,1 @@
+ALTER TABLE "hydration_histories" RENAME COLUMN "quantity" TO "quantity_in_milliliters";
