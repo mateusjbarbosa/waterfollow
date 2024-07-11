@@ -1,0 +1,44 @@
+{
+  "id": "542f0fe3-657e-4d18-9efc-4d65ec937182",
+  "prevId": "0107f012-bfa9-45e7-bc22-55076ed505ad",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.hydration_histories": {
+      "name": "hydration_histories",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(128)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "hydration_at": {
+          "name": "hydration_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quantity_in_milliliters": {
+          "name": "quantity_in_milliliters",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

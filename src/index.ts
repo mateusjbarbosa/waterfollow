@@ -16,7 +16,7 @@ async function sendReminderHourly() {
     });
 
     const now = Date.now();
-    await db.insert(hydrationHistory).values({ hydrationAt: new Date(now), quantity: 300 }).returning();
+    await db.insert(hydrationHistory).values({ hydrationAt: new Date(now), quantityInMilliliters: 300 });
 
     console.log(`${Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(now)} - Reminder sent`);
   }, { timezone: "America/Sao_Paulo" });
