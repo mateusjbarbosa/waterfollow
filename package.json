@@ -1,6 +1,6 @@
 {
   "name": "waterfollow-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "API to handle requests of Waterfollow - An App to follow your hydration",
   "license": "UNLICENSED",
   "author": {
