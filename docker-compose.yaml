@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16.3
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: waterfollow_db
+
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
