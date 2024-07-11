@@ -1,6 +1,6 @@
 {
   "name": "waterfollow-api",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "API to handle requests of Waterfollow - An App to follow your hydration",
   "license": "UNLICENSED",
   "author": {
@@ -10,9 +10,17 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node --env-file=.env dist/index.js"
+  },
+  "dependencies": {
+    "node-cron": "3.0.3",
+    "resend": "3.4.0",
+    "zod": "3.23.8"
   },
   "devDependencies": {
+    "@types/node": "20.14.10",
+    "@types/node-cron": "3.0.11",
     "typescript": "5.5.3"
   }
 }
