@@ -1,0 +1,18 @@
+{
+  "name": "waterfollow-api",
+  "version": "0.0.0",
+  "description": "API to handle requests of Waterfollow - An App to follow your hydration",
+  "license": "UNLICENSED",
+  "author": {
+    "name": "Mateus José Barbosa",
+    "email": "dev.mateusbarbosa@gmail.com",
+    "url": "https://mateusjbarbosa.dev"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "5.5.3"
+  }
+}
