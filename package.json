@@ -10,8 +10,12 @@
   },
   "scripts": {
     "build": "tsc",
-    "start:api": "node --env-file=.env dist/src/api.js",
-    "start:job": "node --env-file=.env dist/src/job.js"
+    "dev:api": "tsx --env-file=.env.development --watch src/api.ts",
+    "dev:job": "tsx --env-file=.env.development --watch src/job.ts",
+    "migration:generate": "drizzle-kit generate",
+    "migration:run": "tsx --env-file=.env.development src/migrate.ts",
+    "start:api": "node --env-file=.env.development dist/src/api.js",
+    "start:job": "node --env-file=.env.development dist/src/job.js"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "2.2.2",
