@@ -1,0 +1,1 @@
+ALTER TABLE "hydration_histories" ALTER COLUMN "hydration_at" SET DEFAULT now();

@@ -4,11 +4,7 @@ import { ENV } from "./env";
 import * as schema from "./schema";
 
 const connection = postgres({
-  host: ENV.DB_HOST,
-  database: ENV.DB_NAME,
-  password: ENV.DB_PASSWORD,
-  port: ENV.DB_PORT,
-  user: ENV.DB_USER,
+  host: ENV.DB_URL,
 });
 
 export const db = drizzle(connection, { schema });
