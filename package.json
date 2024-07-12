@@ -12,11 +12,11 @@
     "build": "tsc",
     "migration:dev:run": "tsx --env-file=.env.development src/migrate.ts",
     "migration:generate": "drizzle-kit generate",
-    "migration:production:run": "tsx --env-file=.env.production src/migrate.ts",
+    "migration:staging:run": "tsx --env-file=.env.staging src/migrate.ts",
     "start:dev:api": "tsx --env-file=.env.development --watch src/api.ts",
     "start:dev:job": "tsx --env-file=.env.development --watch src/job.ts",
-    "start:production:api": "node --env-file=.env.production dist/src/job.js",
-    "start:production:job": "node --env-file=.env.production dist/src/job.js"
+    "start:staging:api": "node --env-file=.env.staging dist/src/job.js",
+    "start:staging:job": "node --env-file=.env.staging dist/src/job.js"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "2.2.2",
