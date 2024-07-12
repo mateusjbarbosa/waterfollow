@@ -15,8 +15,8 @@
     "migration:staging:run": "tsx src/migrate.ts",
     "start:dev:api": "tsx --watch src/api.ts",
     "start:dev:job": "tsx --watch src/job.ts",
-    "start:staging:api": "node dist/api.js",
-    "start:staging:job": "node dist/job.js"
+    "start:staging:api": "node dist/src/api.js",
+    "start:staging:job": "node dist/src/job.js"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "2.2.2",
