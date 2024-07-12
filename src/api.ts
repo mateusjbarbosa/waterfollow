@@ -40,7 +40,7 @@ fastify.get('/hydration', async (_, reply) => {
   }
 })
 
-fastify.listen({ port: ENV.PORT }, function (err) {
+fastify.listen({ port: ENV.PORT, host: '0.0.0.0' }, function (err) {
   if (err) {
     fastify.log.error(err)
     process.exit(1)
