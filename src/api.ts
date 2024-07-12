@@ -45,7 +45,11 @@ fastify.get('/hydration', async (_, reply) => {
   }
 })
 
-fastify.listen({ port: ENV.PORT, host: '0.0.0.0' }, function (err) {
+function isStagingOrProductionEnv() {
+  return ["staging", "production"].includes(ENV.NODE_ENV)
+}
+
+fastify.listen({ port: ENV.PORT, host: isStagingOrProductionEnv() ? '0.0.0.0' : undefined }, function (err) {
   if (err) {
     fastify.log.error(err)
     process.exit(1)
