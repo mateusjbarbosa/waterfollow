@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import { ZodError, z } from 'zod';
+import { version } from '../package.json';
 import { db } from './db';
 import { ENV } from './env';
 import { HydrationHistory, hydrationHistory } from './schema';
@@ -10,6 +11,10 @@ const fastify = Fastify({
 
 const newHydrationRegistrySchema = z.object({
   quantityInMilliliters: z.number()
+})
+
+fastify.get('/', (_, reply) => {
+  reply.send({success: true, message: `Waterfollow API running | v${version}`})
 })
 
 fastify.post('/hydration', async (request, reply) => {
