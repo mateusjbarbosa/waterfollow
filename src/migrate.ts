@@ -3,10 +3,7 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
 import { ENV } from "./env";
 
-const connection = postgres({
-  host: ENV.DB_URL,
-  max: 1,
-});
+const connection = postgres(ENV.DB_URL);
 const db = drizzle(connection);
 
 (async () => {
