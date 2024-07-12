@@ -31,6 +31,16 @@ fastify.post('/hydration', async (request, reply) => {
   }
 })
 
+fastify.get('/hydration', async (_, reply) => {
+  try {
+    const result: HydrationHistory[] = await db.select().from(hydrationHistory);
+    reply.send({success: true, data: result})
+  } catch(err) {
+    console.log(err)
+    reply.code(500).send({success: false, message: "Internal server error"})
+  }
+})
+
 fastify.listen({ port: ENV.PORT }, function (err) {
   if (err) {
     fastify.log.error(err)
