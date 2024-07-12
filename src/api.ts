@@ -17,7 +17,6 @@ fastify.post('/hydration', async (request, reply) => {
     const data = newHydrationRegistrySchema.parse(request.body)
 
     const newRegistry: HydrationHistory = {
-      hydrationAt: new Date(Date.now()),
       quantityInMilliliters: data.quantityInMilliliters
     }
     const result = await db.insert(hydrationHistory).values(newRegistry).returning();
