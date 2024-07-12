@@ -15,7 +15,7 @@
     "migration:staging:run": "tsx src/migrate.ts",
     "start:dev:api": "tsx --watch src/api.ts",
     "start:dev:job": "tsx --watch src/job.ts",
-    "start:staging:api": "ls && node dist/src/api.js",
+    "start:staging:api": "cd dist && ls && node dist/src/api.js",
     "start:staging:job": "node dist/src/job.js"
   },
   "dependencies": {
