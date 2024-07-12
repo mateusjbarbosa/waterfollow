@@ -6,3 +6,4 @@ export const hydrationHistory = pgTable('hydration_histories', {
   hydrationAt: timestamp('hydration_at').notNull(),
   quantityInMilliliters: integer('quantity_in_milliliters').notNull(),
 });
+export type HydrationHistory = typeof hydrationHistory.$inferInsert
