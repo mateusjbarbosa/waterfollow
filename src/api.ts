@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
 import utc from "dayjs/plugin/utc";
 import { and, gte, lt } from "drizzle-orm";
 import Fastify from "fastify";
@@ -54,11 +55,17 @@ const getHydrationHistorySchema = z.object({
   periodInDays: z.coerce.number().optional().default(1),
 });
 
+type HydrationHistoryByPeriod = {
+  day: string,
+  hydration: number
+}
+
 fastify.get("/hydrations", async (request, reply) => {
   const { periodInDays } = getHydrationHistorySchema.parse(request.query);
 
   try {
     dayjs.extend(utc);
+    dayjs.extend(isoWeek)
     const todayAtLastMinute = dayjs()
       .utc()
       .set("hour", 23)
@@ -69,7 +76,7 @@ fastify.get("/hydrations", async (request, reply) => {
       .set("hour", 0)
       .set("minute", 0)
       .set("second", 0);
-    const result: HydrationHistory[] = await db
+    const repositoryResult: HydrationHistory[] = await db
       .select()
       .from(hydrationHistory)
       .where(
@@ -78,7 +85,21 @@ fastify.get("/hydrations", async (request, reply) => {
           lt(hydrationHistory.hydrationAt, todayAtLastMinute.toDate())
         )
       );
-    reply.send({ success: true, data: result });
+
+    const hydrationHistoryByPeriod: HydrationHistoryByPeriod[] = []
+    for (const registry of repositoryResult) {
+      const date = dayjs(registry.hydrationAt).format('YYYY/MM/DD')
+      const indexOfDateInTheArray = hydrationHistoryByPeriod.findIndex((element: HydrationHistoryByPeriod) => element.day === date)
+      if (indexOfDateInTheArray !== -1) {
+        hydrationHistoryByPeriod[indexOfDateInTheArray].hydration += registry.quantityInMilliliters
+      } else {
+        hydrationHistoryByPeriod.push({
+          day: date,
+          hydration: registry.quantityInMilliliters
+        })
+      }
+    }
+    reply.send({ success: true, data: hydrationHistoryByPeriod });
   } catch (err) {
     console.log(err);
     reply.code(500).send({ success: false, message: "Internal server error" });
