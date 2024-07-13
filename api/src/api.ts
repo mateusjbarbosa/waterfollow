@@ -19,7 +19,7 @@ fastify.register(cors, {
 });
 
 const newHydrationRegistrySchema = z.object({
-  quantityInMilliliters: z.number(),
+  quantityInMilliliters: z.coerce.number(),
 });
 
 fastify.get("/", (_, reply) => {
