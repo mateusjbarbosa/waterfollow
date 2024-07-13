@@ -17,7 +17,7 @@ fastify.get('/', (_, reply) => {
   reply.send({success: true, message: `Waterfollow API running | v${version}`})
 })
 
-fastify.post('/hydration', async (request, reply) => {
+fastify.post('/hydrations', async (request, reply) => {
   try {
     const data = newHydrationRegistrySchema.parse(request.body)
 
@@ -35,7 +35,7 @@ fastify.post('/hydration', async (request, reply) => {
   }
 })
 
-fastify.get('/hydration', async (_, reply) => {
+fastify.get('/hydrations', async (_, reply) => {
   try {
     const result: HydrationHistory[] = await db.select().from(hydrationHistory);
     reply.send({success: true, data: result})
