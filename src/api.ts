@@ -37,37 +37,45 @@ fastify.post("/hydrations", async (request, reply) => {
     reply.code(201).send({ success: true, data: result });
   } catch (err) {
     if (err instanceof ZodError) {
-      reply
-        .status(400)
-        .send({
-          success: false,
-          errors: err.issues.map((issue) => ({
-            path: issue.path.join(),
-            message: issue.message,
-          })),
-        });
+      reply.status(400).send({
+        success: false,
+        errors: err.issues.map((issue) => ({
+          path: issue.path.join(),
+          message: issue.message,
+        })),
+      });
     }
     console.log(err);
     reply.code(500).send({ success: false, message: "Internal server error" });
   }
 });
 
-fastify.get("/hydrations", async (_, reply) => {
+const getHydrationHistorySchema = z.object({
+  periodInDays: z.coerce.number().optional().default(1),
+});
+
+fastify.get("/hydrations", async (request, reply) => {
+  const { periodInDays } = getHydrationHistorySchema.parse(request.query);
+
   try {
     dayjs.extend(utc);
-    const todayAtMidnight = dayjs()
+    const todayAtLastMinute = dayjs()
       .utc()
+      .set("hour", 23)
+      .set("minute", 59)
+      .set("second", 59);
+    const initialDateByPeriod = todayAtLastMinute
+      .subtract(periodInDays - 1, "day") // -1 to count today
       .set("hour", 0)
       .set("minute", 0)
       .set("second", 0);
-    const tomorrowAtMidnight = todayAtMidnight.add(1, "day");
     const result: HydrationHistory[] = await db
       .select()
       .from(hydrationHistory)
       .where(
         and(
-          gte(hydrationHistory.hydrationAt, todayAtMidnight.toDate()),
-          lt(hydrationHistory.hydrationAt, tomorrowAtMidnight.toDate())
+          gte(hydrationHistory.hydrationAt, initialDateByPeriod.toDate()),
+          lt(hydrationHistory.hydrationAt, todayAtLastMinute.toDate())
         )
       );
     reply.send({ success: true, data: result });
