@@ -19,7 +19,7 @@ fastify.register(cors, {
 });
 
 const newHydrationRegistrySchema = z.object({
-  quantityInMilliliters: z.number(),
+  quantityInMilliliters: z.coerce.number(),
 });
 
 fastify.get("/", (_, reply) => {
@@ -61,6 +61,7 @@ const getHydrationHistorySchema = z.object({
 });
 
 type HydrationHistoryByPeriod = {
+  id: string;
   day: string;
   hydration: number;
 };
@@ -102,6 +103,7 @@ fastify.get("/hydrations", async (request, reply) => {
           registry.quantityInMilliliters;
       } else {
         hydrationHistoryByPeriod.push({
+          id: registry.id!,
           day: date,
           hydration: registry.quantityInMilliliters,
         });
