@@ -1,0 +1,18 @@
+GET http://localhost:3333 HTTP/1.1
+
+###
+
+GET http://localhost:3333/hydrations HTTP/1.1
+
+###
+
+GET http://localhost:3333/hydrations?periodInDays=3 HTTP/1.1
+
+###
+
+POST http://localhost:3333/hydrations HTTP/1.1
+content-type: application/json
+
+{
+    "quantityInMilliliters": 300
+}

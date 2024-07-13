@@ -15,6 +15,13 @@
       "when": 1720719850215,
       "tag": "0001_lovely_franklin_richards",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720788997489,
+      "tag": "0002_striped_zarek",
+      "breakpoints": true
     }
   ]
 }
