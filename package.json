@@ -9,7 +9,8 @@
     "url": "https://mateusjbarbosa.dev"
   },
   "config": {
-    "env_dev": ".env.development"
+    "env_dev": ".env.development",
+    "env_staging": ".env.staging"
   },
   "scripts": {
     "build": "tsc",
