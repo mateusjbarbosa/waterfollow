@@ -1,6 +1,6 @@
 {
   "name": "waterfollow-api",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "API to handle requests of Waterfollow - An App to follow your hydration",
   "license": "UNLICENSED",
   "author": {
@@ -23,6 +23,7 @@
     "start:staging:job": "node dist/src/job.js"
   },
   "dependencies": {
+    "@fastify/cors": "9.0.1",
     "@paralleldrive/cuid2": "2.2.2",
     "dayjs": "1.11.11",
     "drizzle-orm": "0.32.0",

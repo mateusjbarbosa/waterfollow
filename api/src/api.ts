@@ -1,3 +1,4 @@
+import cors from "@fastify/cors";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import utc from "dayjs/plugin/utc";
@@ -13,8 +14,12 @@ const fastify = Fastify({
   logger: true,
 });
 
+fastify.register(cors, {
+  origin: true, // TODO: fix this to allow only deployed version
+});
+
 const newHydrationRegistrySchema = z.object({
-  quantityInMilliliters: z.number(),
+  quantityInMilliliters: z.coerce.number(),
 });
 
 fastify.get("/", (_, reply) => {
@@ -56,16 +61,17 @@ const getHydrationHistorySchema = z.object({
 });
 
 type HydrationHistoryByPeriod = {
-  day: string,
-  hydration: number
-}
+  id: string;
+  day: string;
+  hydration: number;
+};
 
 fastify.get("/hydrations", async (request, reply) => {
   const { periodInDays } = getHydrationHistorySchema.parse(request.query);
 
   try {
     dayjs.extend(utc);
-    dayjs.extend(isoWeek)
+    dayjs.extend(isoWeek);
     const todayAtLastMinute = dayjs()
       .utc()
       .set("hour", 23)
@@ -86,17 +92,21 @@ fastify.get("/hydrations", async (request, reply) => {
         )
       );
 
-    const hydrationHistoryByPeriod: HydrationHistoryByPeriod[] = []
+    const hydrationHistoryByPeriod: HydrationHistoryByPeriod[] = [];
     for (const registry of repositoryResult) {
-      const date = dayjs(registry.hydrationAt).format('YYYY/MM/DD')
-      const indexOfDateInTheArray = hydrationHistoryByPeriod.findIndex((element: HydrationHistoryByPeriod) => element.day === date)
+      const date = dayjs(registry.hydrationAt).format("YYYY/MM/DD");
+      const indexOfDateInTheArray = hydrationHistoryByPeriod.findIndex(
+        (element: HydrationHistoryByPeriod) => element.day === date
+      );
       if (indexOfDateInTheArray !== -1) {
-        hydrationHistoryByPeriod[indexOfDateInTheArray].hydration += registry.quantityInMilliliters
+        hydrationHistoryByPeriod[indexOfDateInTheArray].hydration +=
+          registry.quantityInMilliliters;
       } else {
         hydrationHistoryByPeriod.push({
+          id: registry.id!,
           day: date,
-          hydration: registry.quantityInMilliliters
-        })
+          hydration: registry.quantityInMilliliters,
+        });
       }
     }
     reply.send({ success: true, data: hydrationHistoryByPeriod });
