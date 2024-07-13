@@ -8,18 +8,23 @@
     "email": "dev.mateusbarbosa@gmail.com",
     "url": "https://mateusjbarbosa.dev"
   },
+  "config": {
+    "env_dev": ".env.development",
+    "env_staging": ".env.staging"
+  },
   "scripts": {
     "build": "tsc",
-    "migration:dev:run": "tsx src/migrate.ts",
+    "migration:dev:run": "tsx --env-file=$npm_package_config_env_dev src/migrate.ts",
     "migration:generate": "drizzle-kit generate",
     "migration:staging:run": "tsx src/migrate.ts",
-    "start:dev:api": "tsx --watch src/api.ts",
+    "start:dev:api": "tsx --watch --env-file=$npm_package_config_env_dev src/api.ts",
     "start:dev:job": "tsx --watch src/job.ts",
     "start:staging:api": "node dist/src/api.js",
     "start:staging:job": "node dist/src/job.js"
   },
   "dependencies": {
     "@paralleldrive/cuid2": "2.2.2",
+    "dayjs": "1.11.11",
     "drizzle-orm": "0.32.0",
     "fastify": "4.28.1",
     "node-cron": "3.0.3",
