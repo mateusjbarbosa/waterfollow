@@ -10,12 +10,16 @@ import { db } from "./db";
 import { ENV } from "./env";
 import { HydrationHistory, hydrationHistory } from "./schema";
 
+function isStagingOrProductionEnv() {
+  return ["staging", "production"].includes(ENV.NODE_ENV);
+}
+
 const fastify = Fastify({
   logger: true,
 });
 
 fastify.register(cors, {
-  origin: true, // TODO: fix this to allow only deployed version
+  origin: isStagingOrProductionEnv() ? ["https://waterfollow-staging-frontend.onrender.com"] : true
 });
 
 const newHydrationRegistrySchema = z.object({
@@ -115,10 +119,6 @@ fastify.get("/hydrations", async (request, reply) => {
     reply.code(500).send({ success: false, message: "Internal server error" });
   }
 });
-
-function isStagingOrProductionEnv() {
-  return ["staging", "production"].includes(ENV.NODE_ENV);
-}
 
 fastify.listen(
   { port: ENV.PORT, host: isStagingOrProductionEnv() ? "0.0.0.0" : "" },
