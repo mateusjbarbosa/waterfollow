@@ -1,7 +1,5 @@
 import cors from "@fastify/cors";
 import dayjs from "dayjs";
-import isoWeek from "dayjs/plugin/isoWeek";
-import utc from "dayjs/plugin/utc";
 import { and, gte, lt } from "drizzle-orm";
 import Fastify from "fastify";
 import { ZodError, z } from "zod";
@@ -74,10 +72,8 @@ fastify.get("/hydrations", async (request, reply) => {
   const { periodInDays } = getHydrationHistorySchema.parse(request.query);
 
   try {
-    dayjs.extend(utc);
-    dayjs.extend(isoWeek);
+    // TODO: update this by user timezone
     const todayAtLastMinute = dayjs()
-      .utc()
       .set("hour", 23)
       .set("minute", 59)
       .set("second", 59);
