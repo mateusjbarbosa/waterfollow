@@ -2,6 +2,16 @@
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2024-07-15
+
+### Changed
+
+- Update CORS validation to allow staging frontend when is deployed or all when is localhost
+
+### Removed
+
+- Add coerce in the POST hydration body schema
+
 ## [1.0.2] - 2024-07-13
 
 ### Added
@@ -53,8 +63,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - A Cron Job to send reminder at e-mail every hour
-
-## Compare versions
-
-- [v0.1.1](https://github.com/mateusjbarbosa/waterfollow/releases/tag/v0.1.1)
-- [v0.1.0](https://github.com/mateusjbarbosa/waterfollow/releases/tag/v0.1.0)
