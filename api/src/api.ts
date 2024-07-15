@@ -1,3 +1,4 @@
+import cors from "@fastify/cors";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 import utc from "dayjs/plugin/utc";
@@ -9,8 +10,16 @@ import { db } from "./db";
 import { ENV } from "./env";
 import { HydrationHistory, hydrationHistory } from "./schema";
 
+function isStagingOrProductionEnv() {
+  return ["staging", "production"].includes(ENV.NODE_ENV);
+}
+
 const fastify = Fastify({
   logger: true,
+});
+
+fastify.register(cors, {
+  origin: isStagingOrProductionEnv() ? ["https://waterfollow-staging-frontend.onrender.com"] : true
 });
 
 const newHydrationRegistrySchema = z.object({
@@ -56,16 +65,17 @@ const getHydrationHistorySchema = z.object({
 });
 
 type HydrationHistoryByPeriod = {
-  day: string,
-  hydration: number
-}
+  id: string;
+  day: string;
+  hydration: number;
+};
 
 fastify.get("/hydrations", async (request, reply) => {
   const { periodInDays } = getHydrationHistorySchema.parse(request.query);
 
   try {
     dayjs.extend(utc);
-    dayjs.extend(isoWeek)
+    dayjs.extend(isoWeek);
     const todayAtLastMinute = dayjs()
       .utc()
       .set("hour", 23)
@@ -86,17 +96,21 @@ fastify.get("/hydrations", async (request, reply) => {
         )
       );
 
-    const hydrationHistoryByPeriod: HydrationHistoryByPeriod[] = []
+    const hydrationHistoryByPeriod: HydrationHistoryByPeriod[] = [];
     for (const registry of repositoryResult) {
-      const date = dayjs(registry.hydrationAt).format('YYYY/MM/DD')
-      const indexOfDateInTheArray = hydrationHistoryByPeriod.findIndex((element: HydrationHistoryByPeriod) => element.day === date)
+      const date = dayjs(registry.hydrationAt).format("YYYY/MM/DD");
+      const indexOfDateInTheArray = hydrationHistoryByPeriod.findIndex(
+        (element: HydrationHistoryByPeriod) => element.day === date
+      );
       if (indexOfDateInTheArray !== -1) {
-        hydrationHistoryByPeriod[indexOfDateInTheArray].hydration += registry.quantityInMilliliters
+        hydrationHistoryByPeriod[indexOfDateInTheArray].hydration +=
+          registry.quantityInMilliliters;
       } else {
         hydrationHistoryByPeriod.push({
+          id: registry.id!,
           day: date,
-          hydration: registry.quantityInMilliliters
-        })
+          hydration: registry.quantityInMilliliters,
+        });
       }
     }
     reply.send({ success: true, data: hydrationHistoryByPeriod });
@@ -105,10 +119,6 @@ fastify.get("/hydrations", async (request, reply) => {
     reply.code(500).send({ success: false, message: "Internal server error" });
   }
 });
-
-function isStagingOrProductionEnv() {
-  return ["staging", "production"].includes(ENV.NODE_ENV);
-}
 
 fastify.listen(
   { port: ENV.PORT, host: isStagingOrProductionEnv() ? "0.0.0.0" : "" },
