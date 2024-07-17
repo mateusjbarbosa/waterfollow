@@ -1,6 +1,6 @@
 {
   "name": "waterfollow-api",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "API to handle requests of Waterfollow - An App to follow your hydration",
   "license": "UNLICENSED",
   "author": {
@@ -18,9 +18,7 @@
     "migration:generate": "drizzle-kit generate",
     "migration:staging:run": "tsx src/migrate.ts",
     "start:dev:api": "tsx --watch --env-file=$npm_package_config_env_dev src/api.ts",
-    "start:dev:job": "tsx --watch src/job.ts",
-    "start:staging:api": "node dist/src/api.js",
-    "start:staging:job": "node dist/src/job.js"
+    "start:staging:api": "node dist/src/api.js"
   },
   "dependencies": {
     "@fastify/cors": "9.0.1",

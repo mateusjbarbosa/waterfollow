@@ -16,3 +16,7 @@ content-type: application/json
 {
     "quantityInMilliliters": 300
 }
+
+###
+
+POST http://localhost:3333/reminder HTTP/1.1
