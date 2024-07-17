@@ -2,6 +2,7 @@ import cors from "@fastify/cors";
 import dayjs from "dayjs";
 import { and, gte, lt } from "drizzle-orm";
 import Fastify from "fastify";
+import { Resend } from "resend";
 import { ZodError, z } from "zod";
 import { version } from "../package.json";
 import { db } from "./db";
@@ -115,6 +116,25 @@ fastify.get("/hydrations", async (request, reply) => {
     reply.code(500).send({ success: false, message: "Internal server error" });
   }
 });
+
+fastify.post("/reminder", (_, reply) => {
+  const resend = new Resend(ENV.RESEND_API_KEY);
+  resend.emails.send({
+    from: 'onboarding@resend.dev', // TODO: update to waterfollow or mateusjbarbosa.dev e-mail
+    to: 'dev.mateusbarbosa@gmail.com', // TODO: update to dynamic as user
+    subject: 'Waterfollow - Lembrete de hidratação',
+    // TODO: improve
+    html: `
+      <div>
+        <p><strong>Hora de se hidratar!</strong></p>
+        <br />
+        <a>Acesse: ${ENV.FRONTEND_URL}</a>
+      </div>
+    `
+  });
+
+  reply.send({ success: true, message: "Reminder sent" });
+})
 
 fastify.listen(
   { port: ENV.PORT, host: isStagingOrProductionEnv() ? "0.0.0.0" : "" },
