@@ -128,7 +128,7 @@ fastify.post("/reminder", (_, reply) => {
       <div>
         <p><strong>Hora de se hidratar!</strong></p>
         <br />
-        <a>Acesse: ${ENV.FRONTEND_URL}</a>
+        <p>Acesse: <a href="${ENV.FRONTEND_URL}">${ENV.FRONTEND_URL}</a></p>
       </div>
     `
   });
