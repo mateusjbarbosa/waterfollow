@@ -117,7 +117,7 @@ fastify.get("/hydrations", async (request, reply) => {
   }
 });
 
-fastify.get("/reminder", (_, reply) => {
+fastify.post("/reminder", (_, reply) => {
   const resend = new Resend(ENV.RESEND_API_KEY);
   resend.emails.send({
     from: 'onboarding@resend.dev', // TODO: update to waterfollow or mateusjbarbosa.dev e-mail
@@ -133,7 +133,7 @@ fastify.get("/reminder", (_, reply) => {
     `
   });
 
-  reply.send({ success: true, message: "Reminder sent" });
+  reply.code(204).send();
 })
 
 fastify.listen(
