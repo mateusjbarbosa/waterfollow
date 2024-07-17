@@ -41,6 +41,12 @@ export function App() {
     },
   });
 
+  const handleMutate = (quantity: number) => {
+    mutate({
+      quantityInMilliliters: quantity,
+    });
+  };
+
   return (
     <>
       <h1>Waterfollow</h1>
@@ -48,15 +54,9 @@ export function App() {
       {!isLoading &&
         data.map((item: any) => <li>{`${item.day} | ${item.hydration}ml`}</li>)}
       <br />
-      <button
-        onClick={() => {
-          mutate({
-            quantityInMilliliters: 300,
-          });
-        }}
-      >
-        Adicionar 300ml
-      </button>
+      <button onClick={() => handleMutate(150)}>Adicionar 150ml</button>
+      <button onClick={() => handleMutate(300)}>Adicionar 300ml</button>
+      <button onClick={() => handleMutate(450)}>Adicionar 450ml</button>
     </>
   );
 }
